@@ -1,5 +1,5 @@
 # Some-Python-Projects
-Just some python projects I've learned on youtube.  
+Just some beginner python projects I've learned on youtube.  
 
 1. Guessing Numbers game
 2. Madlibs Generator
