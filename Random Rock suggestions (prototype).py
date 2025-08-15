@@ -136,15 +136,7 @@ mood = mood.replace(" ", "")
 
 # Define a function to normalize the mood input
 def normalize_mood(mood):
-    mood_mapping = {
-        'happy': 'happy',
-        'sad': 'sad',
-        'energetic': 'energetic',
-        'relaxed': 'relaxed',
-        'depressed': 'depressed',
-        'angry': 'angry'
-    }
-    return mood_mapping.get(mood, None)
+    return mood if mood in moods else None
 
 def map_mood(mood):
     mood_mapping = {
