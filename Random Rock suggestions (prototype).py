@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, shuffle
 
 #create a list of rock bands
 rock_bands = [['Led Zeppelin', 'rock', 'classic rock'],
@@ -123,8 +123,12 @@ rock_bands = [['Led Zeppelin', 'rock', 'classic rock'],
               ['Taking Back Sunday', 'rock', 'emo'],
               ['Dashboard Confessional', 'rock', 'emo']]
 
+shuffle(rock_bands)
+
+moods = {'happy', 'sad', 'energetic', 'relaxed'}
+
 # Input mood
-print("What is your current mood? (e.g., happy, sad, energetic, relaxed)")
+print(f"What is your current mood? (e.g. {', '.join(moods)})")
 mood = input("Happy, Sad, Energetic, Relaxed, Depressed, Angry: ").strip().lower()
 
 # Normalize mood input
@@ -132,15 +136,16 @@ mood = mood.replace(" ", "")
 
 # Define a function to normalize the mood input
 def normalize_mood(mood):
+    return mood if mood in moods else None
+
+def map_mood(mood):
     mood_mapping = {
-        'happy': 'happy',
-        'sad': 'sad',
-        'energetic': 'energetic',
-        'relaxed': 'relaxed',
-        'depressed': 'depressed',
-        'angry': 'angry'
+        'happy': ['numetal', 'pop punk', 'soft rock', 'classic rock'],
+        'sad': ['soft rock', 'emo', 'post-hardcore'],
+        ...: ...
     }
-    return mood_mapping.get(mood, None)
+    return mood_mapping.get(mood, [])
+
 mood = normalize_mood(mood)
 
 # Check if the mood is valid
@@ -148,40 +153,36 @@ if mood is None:
     print("Invalid mood input. Please enter one of the following: Happy, Sad, Energetic, Relaxed, Depressed, Angry.")
     exit() 
 
+rock_types = map_mood(mood)
+
 # Print the mood
 print(f"You are feeling {mood}.")
 
 # Based on the mood, suggest a rock band
 print("Here are some rock bands you might enjoy based on your mood:")
 
+
 # loop through and find a band that matches the mood
 for item in rock_bands:
-    if mood in item[1:] :
-        print(f"Based on your mood, you might enjoy listening to {item[0]}, which is known for {', '.join(item[1:])}.")
-        break
-    else:
-        print("Sorry, I couldn't find a rock band that matches your mood.")
-        break
-from random import choice
+    broke = False
+    for rock_type in rock_types:
+        if rock_type in item[1:]:
+            print(f"Based on your mood, you might enjoy listening to {item[0]}, which is known for {', '.join(item[1:])}.")
+            broke = True
+            break
+    if broke: break
+else:
+    print("Sorry, I couldn't find a rock band that matches your mood.")  # only reached if for-loop isn't broken, which only happenss if no match is found.
 
-        # Suggest a random rock band if no match found
-random_band = choice(rock_bands)
-print(f"How about trying {random_band[0]}? They are known for {', '.join(random_band[1:])}.")
-
-# Suggest a rock band based on mood
-for item in rock_bands:
-    if mood in item[1:]:
-        print(f"Based on your mood, you might enjoy listening to {item[0]}, which is known for {', '.join(item[1:])}.")
-        break   
-else:    print("Sorry, I couldn't find a rock band that matches your mood.")
-        # Suggest a random rock band if no match found
-random_band = choice(rock_bands)
-print(f"How about trying {random_band[0]}? They are known for {', '.join(random_band[1:])}.")
-
-# Suggest a random rock band if no match found
-if not any(mood in item[1:] for item in rock_bands):
+    # Suggest a random rock band if no match found
     random_band = choice(rock_bands)
     print(f"How about trying {random_band[0]}? They are known for {', '.join(random_band[1:])}.")
-    
-# End of the script
-print("Enjoy your music!")
+
+    # End of the script
+    print("Enjoy your music!")
+
+
+# CONTRIBUTOR NOTES:
+# * You had the same for-loop (finding rock band based on mood) twice with different implementations (one of them was better yet broken).
+# * I fixed some more stuff and made it actually find a rock band based on mood.
+# * You're gonna have to map some moods to some rock types yourself.
